@@ -1,0 +1,13 @@
+tensorflow
+torch
+keras
+scikit-learn
+mxnet
+numpy
+pandas
+matplotlib
+seaborn
+jupyterlab
+deap
+pyswarms
+inspyred
