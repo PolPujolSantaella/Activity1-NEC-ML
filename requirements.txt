@@ -11,3 +11,4 @@ jupyterlab
 deap
 pyswarms
 inspyred
+xgboost
