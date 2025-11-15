@@ -116,7 +116,12 @@ class NeuralNet:
         self._backPropagation(y_pattern)
 
         # STEP 8: Update-Weights
-        self._update(x_pattern)
+        self._update()
+
+      if epoch % 50 == 0:
+        pred = self._forward(x_pattern)
+        loss = np.mean((pred - y_pattern)**2)
+        print(f"Epoch {epoch}, loss = {loss}")
 
   def _forward(self, x_pattern):
 
@@ -134,7 +139,7 @@ class NeuralNet:
   
   def _backPropagation(self, y_pattern):
     # Error (prediction - real)
-    error = self.xi[self.L - 1] - y_pattern
+    error = y_pattern - self.xi[self.L - 1]
 
     # Gradient = error * fact'(h[L - 1]])
     self.delta[self.L - 1] = error * self.fact_der(self.h[self.L - 1])
@@ -152,23 +157,30 @@ class NeuralNet:
       self.d_w[l] = np.outer(self.delta[l], self.xi[l - 1])
 
       # Gradient Thresholds = delta[l]
-      self.d_theta = self.delta[l]
+      self.d_theta[l] = self.delta[l]
   
 
-  def _update(self, x_pattern):
-    pass
+  def _update(self):
+    # Change Weights & Thresholds with descent gradient
+    # New weight = - learning_rate * d_w + momentum * previous change d_w_prev
+    for l in range(1, self.L):
+      new_weight = - self.learning_rate * self.d_w[l] + self.momentum * self.d_w_prev[l]
 
-    
+      # Update
+      self.w[l] += new_weight
 
+      #Store Change
+      self.d_w_prev[l] = new_weight
 
+      # Thresholds
+      # New threshold = learning_rate * d_t + momentum * previous change d_t_prev
+      new_threshold = self.learning_rate * self.d_theta[l] + self.momentum * self.d_theta_prev[l]
 
+      #Update
+      self.theta[l] += new_threshold
 
-
-
-
-
-
-
+      #Store
+      self.d_theta_prev[l] = new_threshold
 
 
 
