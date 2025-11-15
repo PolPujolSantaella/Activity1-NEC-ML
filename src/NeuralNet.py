@@ -70,17 +70,18 @@ class NeuralNet:
         Target output data of shape (n_samples x output_size)
     """
 
+    print(f"{self.n}")
+
+    X = X.to_numpy() if not isinstance(X, np.ndarray) else X
+    y = y.to_numpy() if not isinstance(y, np.ndarray) else y
+
     # STEP 1: Divide data into trainning and validation
     val_size = int(X.shape[0] * self.validation_split)
+
     X_val = X[:val_size]
     y_val = y[:val_size]
     X_train = X[val_size:]
     y_train = y[val_size:]
-
-    X_val = X_val.to_numpy() if not isinstance(X_val, np.ndarray) else X_val
-    y_val = y_val.to_numpy() if not isinstance(y_val, np.ndarray) else y_val
-    X_train = X_train.to_numpy() if not isinstance(X_train, np.ndarray) else X_train
-    y_train = y_train.to_numpy() if not isinstance(y_train, np.ndarray) else y_train
 
     # STEP 2: Initialize Weigths & Thresholds randomly
     for lay in range(1, self.L):
@@ -100,35 +101,49 @@ class NeuralNet:
         y_pattern = y_train[random_pattern]
 
         # STEP 6: Feed-Forward
-        self.xi[0] = x_pattern # The first input layer contains the random pattern
+        self._forward(x_pattern)
 
-        # For each layer
-        for l in range(1, self.L):
-          # First compute Sum of weights
-          # For each unit
-          for i in range(self.n[l]):
-            sum = 0.0
-            # For each unit of previous layer
-            for j in range(self.n[l - 1]):
-              # Sum = Weight Product * previous activation
-              sum += self.w[l][i][j] * self.xi[l - 1][j] 
+        # STEP 7: Back-Propagation
+        self._backPropagation(x_pattern)
 
-            # Compute field h(x)
-            self.h[l][i] = sum - self.theta[l][i] 
+        # STEP 8: Update-Weights
 
-            # Compute Activation (output of the unit)
-            self.xi[l][i] = self.fact(self.h[l][i])
 
-        # DEBUG FEED FORWARD
-        if epoch % 10 == 0 and _ == 0:
-          print(f"Epoch {epoch}: Feed-forward CHECKING")
-          print(f"Input 3 samples: {x_pattern[:3]}")
-          print(f"Input layer activation: {self.xi[0]}")
-          print(f"Output layer activation: {self.xi[self.L - 1]}")
+
+
+  def _forward(self, x_pattern):
+
+    self.xi[0] = x_pattern # The first input layer contains the random pattern
+    
+    # For each layer
+    for l in range(1, self.L):
+      self.h[l] = np.dot(self.w[l], self.xi[l-1]) - self.theta[l]
+      
+      # Compute Activation (output of the unit)
+      self.xi[l] = self.fact(self.h[l])
+
+    return self.xi[self.L - 1].copy()
+  
+  
+  
+  
+  def _backPropagation(self, x_pattern):
+    pass
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
   # MAIN
-  layers = [19, 32, 16, 1]
+  layers = [16, 32, 16, 1]
   epochs = 100
   learning_rate = 0.01
   momentum = 0.9
