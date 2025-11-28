@@ -55,7 +55,7 @@ class NeuralNet:
       "tanh": lambda x: 1 - np.tanh(x)**2
     }
 
-    # I fact is not in activation_functions raise Error
+    # If fact is not in activation_functions raise Error
     if fact not in activation_functions:
       raise ValueError(f"Unknown activation fucntion '{fact}'. Must be one of: {list(activation_functions.keys())}")
     
@@ -238,8 +238,6 @@ class NeuralNet:
       prediction = self._forward(x_pattern)
       predictions.append(prediction)
     return np.array(predictions)
-
-
 
 
 if __name__ == "__main__":
