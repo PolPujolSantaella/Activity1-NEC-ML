@@ -1,5 +1,7 @@
 # Activity 1: Prediction with Supervised Learning Models
 
+Neural Network with Backpropagation from Scratch
+
 ## 🎯 Project Overview
 
 This repository contains the implementation, analysis, and documentation for Activity 1 of the **Neural and Evolutionary Computation (NEC)** course (2025/26). The primary goal of this assignment is to apply and compare different supervised learning models—including a custom-built Neural Network—to a regression task using the "Realistic Revenue Dataset."
