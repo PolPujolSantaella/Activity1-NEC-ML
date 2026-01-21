@@ -1,6 +1,6 @@
 # Activity 1: Prediction with Supervised Learning Models
 
-Neural Network with Backpropagation from Scratch
+Neural Network with Backpropagation from Scratch.
 
 ## 🎯 Project Overview
 
