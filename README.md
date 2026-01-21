@@ -1,5 +1,5 @@
-# Activity 1: Prediction with Supervised Learning Models
-Neural Network with Backpropagation from Scratch.
+# Activity1-NEC-ML
+Neural Network with Backpropagation implemented from scratch.
 
 ## 🎯 Project Overview
 
